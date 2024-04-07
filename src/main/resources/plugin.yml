@@ -1,0 +1,3 @@
+name: bsDuel
+version: '${project.version}'
+main: dev.vedcodee.it.Main
