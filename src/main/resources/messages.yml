@@ -1,0 +1,19 @@
+# bsDuel v1.0
+# by @VedCodee
+#
+# All Placeholders:
+# {prefix}
+#
+
+# Prefix
+prefix: "&8[&b&lDuel&8]"
+# Creation
+created: "{prefix} &aArena '{arena}' created!"
+simplify_setspawn: "{prefix} &aClick here for set >"
+simplify_setspawn_1: "{prefix} &a&lSPAWN 1"
+simplify_setspawn_2: "{prefix} &a&lSPAWN 2"
+spawn_set: "{prefix} &aSpawn {num} of arena '{arena}' is been set!"
+
+# Errors
+syntax_error: "{prefix} &cError, please check the command format!"
+arena_areal_exist: "{prefix} &cError, the arena '{arena}' areal exist!"

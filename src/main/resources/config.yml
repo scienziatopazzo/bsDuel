@@ -1,0 +1,15 @@
+# bsDuel v1.0
+# by @VedCodee (Dev)
+#
+# Database Type
+#
+# MYSQL
+#
+
+database:
+  host: "localhost"
+  port: "3306"
+  database: "bsDuel"
+  username: "root"
+  password: ""
+
