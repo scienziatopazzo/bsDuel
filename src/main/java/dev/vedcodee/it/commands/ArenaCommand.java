@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Subcommand;
 import dev.vedcodee.it.Main;
 import dev.vedcodee.it.arena.Arena;
+import dev.vedcodee.it.kit.DuelKit;
 import dev.vedcodee.it.utils.ChatUtils;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -40,6 +41,7 @@ public class ArenaCommand extends BaseCommand {
     }
 
     @Subcommand("set")
+    @CommandPermission("bsduel.admin")
     public void onSet(Player player, String[] args) {
         if(checkSyntax(player, args, 2)) return;
         int spawn;
@@ -62,6 +64,57 @@ public class ArenaCommand extends BaseCommand {
         placeholders.put("num", String.valueOf(spawn));
         ChatUtils.sendMessage(player, "spawn_set", placeholders);
     }
+
+    @Subcommand("kit create")
+    @CommandPermission("bsduel.admin")
+    public void onKitCreate(Player player, String[] args) {
+        if(checkSyntax(player, args, 1)) return;
+        String name = args[0];
+        HashMap<String, String> placeholders = new HashMap<>();
+        placeholders.put("kit", name);
+        if(DuelKit.getKitByName(name) != null) {
+            ChatUtils.sendMessage(player, "kit_areal_exist", placeholders);
+            return;
+        }
+        DuelKit kit = new DuelKit(name);
+        kit.loadContent(player);
+        ChatUtils.sendMessage(player, "kit_created", placeholders);
+    }
+
+
+    @Subcommand("kit get")
+    @CommandPermission("bsduel.admin")
+    public void onKitGet(Player player, String[] args) {
+        if(checkSyntax(player, args, 1)) return;
+        String name = args[0];
+        HashMap<String, String> placeholders = new HashMap<>();
+        placeholders.put("kit", name);
+        if(DuelKit.getKitByName(name) == null) {
+            ChatUtils.sendMessage(player, "kit_not_exist", placeholders);
+            return;
+        }
+        DuelKit kit = DuelKit.getKitByName(name);
+        player.getInventory().setContents(kit.getContent());
+        ChatUtils.sendMessage(player, "kit_get", placeholders);
+    }
+
+
+    @Subcommand("kit delete")
+    @CommandPermission("bsduel.admin")
+    public void onKitDelete(Player player, String[] args) {
+        if(checkSyntax(player, args, 1)) return;
+        String name = args[0];
+        HashMap<String, String> placeholders = new HashMap<>();
+        placeholders.put("kit", name);
+        if(DuelKit.getKitByName(name) == null) {
+            ChatUtils.sendMessage(player, "kit_not_exist", placeholders);
+            return;
+        }
+        DuelKit kit = DuelKit.getKitByName(name);
+        kit.delete();
+        ChatUtils.sendMessage(player, "kit_deleted", placeholders);
+    }
+
 
 
 

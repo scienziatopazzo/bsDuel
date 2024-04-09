@@ -13,7 +13,12 @@ simplify_setspawn: "{prefix} &aClick here for set >"
 simplify_setspawn_1: "{prefix} &a&lSPAWN 1"
 simplify_setspawn_2: "{prefix} &a&lSPAWN 2"
 spawn_set: "{prefix} &aSpawn {num} of arena '{arena}' is been set!"
-
+# Kit System
+kit_created: "{prefix} &aKit '{kit}' created!"
+kit_deleted: "{prefix} &aKit '{kit}' deleted!"
+kit_get: "{prefix} &aKit '{kit}' get!"
 # Errors
 syntax_error: "{prefix} &cError, please check the command format!"
 arena_areal_exist: "{prefix} &cError, the arena '{arena}' areal exist!"
+kit_areal_exist: "{prefix} &cError, the kit '{kit}' areal exist!"
+kit_not_exist: "{prefix} &cError, the kit '{kit}' don't exist"

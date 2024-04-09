@@ -13,3 +13,5 @@ database:
   username: "root"
   password: ""
 
+kit:
+  permission: "bsduel.{kit_name}"

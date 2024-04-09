@@ -1,0 +1,16 @@
+# COMMANDS (only admin):
+# /duel kit create <name>
+# /duel kit delete <name>
+# /duel kit get <name>
+
+# THIS IS A TEST KIT
+enable: true
+# SET THE ARMOR
+inventory:
+  1: # SLOT
+  36: # HELMET
+  37: # CHESTPLATE
+  38: # BOOTS
+  39: # LEGGINGS
+  40: # OTHER HAND
+

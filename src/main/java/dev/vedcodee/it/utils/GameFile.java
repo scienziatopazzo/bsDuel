@@ -26,10 +26,21 @@ public class GameFile {
         File configFile = new File(main.getDataFolder(), name);
         this.file = configFile;
 
+
         if (!configFile.exists()) {
             configFile.getParentFile().mkdirs();
-            main.saveResource(name, false);
+            try {
+                main.saveResource(name, false);
+            }catch (Exception e) {
+                try {
+                    configFile.createNewFile();
+                }catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
+
+
 
         if(name.contains(".yml")) {
             FileConfiguration configuration = new YamlConfiguration();
@@ -42,8 +53,6 @@ public class GameFile {
 
             fileConfiguration = configuration;
         }
-
-
 
     }
 
@@ -62,6 +71,8 @@ public class GameFile {
             e.printStackTrace();
         }
     }
+
+
 
 
 
