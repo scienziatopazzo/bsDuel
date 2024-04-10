@@ -6,7 +6,7 @@ import org.bukkit.Location;
 public class LocationUtils {
 
     public static String getString(Location location) {
-        return location.getWorld().getName() + ";;" + location.getX() + ";;" + location.getY() + ";;" + location.getZ() + ";;" + location.getYaw() + ";;" + location.getPitch();
+        return location.getWorld().getName() + ";;" + (int) location.getX() + ";;" + (int) location.getY() + ";;" + (int) location.getZ() + ";;" + (int) location.getYaw() + ";;" + (int) location.getPitch();
     }
 
     public static Location getLocation(String location) {

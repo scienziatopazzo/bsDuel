@@ -220,10 +220,17 @@ public class ItemFactory {
     }
 
     public static ItemFactory load(ConfigurationSection section) {
-        Material material = Material.matchMaterial(section.getString("material"));
-        ItemFactory item  = new ItemFactory(material);
+        ItemFactory item = null;
 
-        if(material == Material.AIR) return item;
+        Material material = Material.matchMaterial(section.getString("material"));
+        if(material == Material.AIR || material == null) return new ItemFactory(Material.AIR);
+
+        if(section.contains("id")) {
+            item = new ItemFactory(new ItemStack(Material.matchMaterial(section.getString("material")), 1, (short) section.getInt("id")));
+        }else {
+            item = new ItemFactory(Material.matchMaterial(section.getString("material")));
+        }
+
 
         if(section.contains("name"))
             item.name(section.getString("name"));

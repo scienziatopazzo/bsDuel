@@ -1,10 +1,8 @@
 # bsDuel v1.0
-# by @VedCodee (Dev)
+# by @VedCodee
 #
 # Database Type
-#
-# MYSQL
-#
+# - MYSQL
 
 database:
   host: "localhost"
@@ -13,5 +11,42 @@ database:
   username: "root"
   password: ""
 
+startingSeconds: 10
+
 kit:
   permission: "bsduel.{kit_name}"
+  default: "kit_sword"
+  preview:
+    material: BARRIER
+    name: "&cNo kit Selected"
+    lore:
+      - ""
+      - "&8You can view the kit selected"
+      - ""
+  kits:
+    kit_crystal:
+      material: END_CRYSTAL
+      name: "&dCrystal Kit"
+    kit_totem:
+      material: TOTEM
+      name: "&6Totem Kit"
+    kit_sword:
+      material: DIAMOND_SWORD
+      name: "&bSword Kit"
+  inventory_slot: 54
+  inventory:
+    21:
+      select: "kit_crystal"
+    22:
+      select: "kit_totem"
+    23:
+      select: "kit_sword"
+    40:
+      preview: ""
+    4:
+      material: WRITTEN_BOOK
+      name: "&eInfo"
+      lore:
+        - ""
+        - "&bClick a kit to equip it."
+        - ""

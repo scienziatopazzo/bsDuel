@@ -1,5 +1,6 @@
 package dev.vedcodee.it.utils.pair;
 
+import dev.vedcodee.it.arena.component.gui.ArenaSelectKitGUI;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
@@ -9,7 +10,9 @@ import org.bukkit.entity.Player;
 public class PlayerPair {
 
     private Player player1;
+    private ArenaSelectKitGUI player1_selection;
     private Player player2;
+    private ArenaSelectKitGUI player2_selection;
 
 
     public PlayerPair(Player loc1, Player loc2) {
