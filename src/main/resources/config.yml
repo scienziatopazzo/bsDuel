@@ -12,6 +12,7 @@ database:
   password: ""
 
 startingSeconds: 10
+stoppingSeconds: 5
 
 kit:
   permission: "bsduel.{kit_name}"

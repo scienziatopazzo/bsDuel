@@ -4,9 +4,9 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
 import dev.vedcodee.it.arena.Arena;
+import dev.vedcodee.it.arena.component.Status;
 import dev.vedcodee.it.utils.ChatUtils;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.HashMap;
 
@@ -22,6 +22,8 @@ public class LeaveCommand extends BaseCommand {
         }
 
         Arena arena = Arena.getArenaByPlayer(player);
+
+        if(arena.getStatus() != Status.STATED) return;
 
         arena.setVictory(arena.getPlayers().getPlayer1() == player ? arena.getPlayers().getPlayer2() : arena.getPlayers().getPlayer1());
         arena.stop();

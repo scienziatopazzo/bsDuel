@@ -17,4 +17,5 @@ public class SelectGUIRunnable extends BukkitRunnable {
         if(arena.getPlayers().getPlayer2_selection() != null && !arena.getPlayers().getPlayer2().getOpenInventory().getTitle().contains("Select Kit"))
             arena.getPlayers().getPlayer2_selection().open(arena.getPlayers().getPlayer2());
 
-    }}
+    }
+}

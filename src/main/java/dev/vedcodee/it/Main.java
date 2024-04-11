@@ -1,6 +1,8 @@
 package dev.vedcodee.it;
 
 import co.aikar.commands.BukkitCommandManager;
+import dev.vedcodee.it.arena.component.events.PlayerDeathEventImp;
+import dev.vedcodee.it.arena.component.events.PlayerQuitEventImp;
 import dev.vedcodee.it.commands.ArenaCommand;
 import dev.vedcodee.it.commands.LeaveCommand;
 import dev.vedcodee.it.database.MySQLDatabase;
@@ -42,6 +44,8 @@ public final class Main extends JavaPlugin {
         DuelKit.loadKits();
 
         Bukkit.getPluginManager().registerEvents(new GUIEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerDeathEventImp(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerQuitEventImp(), this);
     }
 
     @Override

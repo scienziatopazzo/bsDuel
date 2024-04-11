@@ -1,6 +1,5 @@
 package dev.vedcodee.it.arena;
 
-import com.google.common.base.Strings;
 import dev.vedcodee.it.Main;
 import dev.vedcodee.it.arena.component.Status;
 import dev.vedcodee.it.arena.component.gui.ArenaSelectKitGUI;
@@ -10,12 +9,10 @@ import dev.vedcodee.it.utils.ChatUtils;
 import dev.vedcodee.it.utils.LocationUtils;
 import dev.vedcodee.it.utils.pair.LocationPair;
 import dev.vedcodee.it.utils.pair.PlayerPair;
-import jdk.nashorn.internal.parser.TokenLookup;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,11 +78,11 @@ public class Arena {
         players.getPlayer2().getInventory().setContents(players.getPlayer2_selection().getKitSelected() == null ? DuelKit.getKitByName(Main.getInstance().getConfiguration().getString("kit.default")).getContent() : players.getPlayer2_selection().getKitSelected().getContent());
     }
 
+
     public void stop() {
         HashMap<String, String> placeholders = new HashMap<>();
         placeholders.put("player", victory.getName());
         sendMessage(ChatUtils.replace(Main.getInstance().getMessageConfiguration().getString("win"), placeholders));
-        setStatus(Status.EMPTY);
         Location lobby = LocationUtils.getLocation(Main.getInstance().getConfiguration().getString("lobby"));
         players.getPlayer1().teleport(lobby);
         players.getPlayer2().teleport(lobby);
@@ -95,7 +92,9 @@ public class Arena {
         players.getPlayer2_selection().delete();
         players.setPlayer1_selection(null);
         players.setPlayer2_selection(null);
+        setStatus(Status.EMPTY);
     }
+
 
 
     public void sendMessage(String message) {
