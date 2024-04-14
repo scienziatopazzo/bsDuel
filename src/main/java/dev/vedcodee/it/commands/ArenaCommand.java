@@ -15,9 +15,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.units.qual.A;
 
-import java.awt.*;
 import java.util.HashMap;
 
 @CommandAlias("duel|arena")
@@ -84,6 +82,20 @@ public class ArenaCommand extends BaseCommand {
         Main.getInstance().getConfigFile().save();
         ChatUtils.sendMessage(player, "setLobby", new HashMap<>());
     }
+
+    @Subcommand("info")
+    public void onInfo(Player player) {
+        HashMap<String, String> placeholders = new HashMap<>();
+        int win = Main.getInstance().getDatabase().getWins(player.getName());
+        int deaths = Main.getInstance().getDatabase().getDeath(player.getName());
+        placeholders.put("win", String.valueOf(win == -1 ? 0 : win));
+        placeholders.put("deaths", String.valueOf(deaths == -1 ? 0 : deaths));
+
+        for (String info : Main.getInstance().getMessageConfiguration().getStringList("info"))
+            player.sendMessage(ChatUtils.replace(info, placeholders));
+    }
+
+
 
 
     @Default

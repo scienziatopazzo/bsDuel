@@ -7,7 +7,6 @@ import dev.vedcodee.it.arena.Arena;
 import dev.vedcodee.it.utils.LocationUtils;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.sql.*;
@@ -42,6 +41,7 @@ public class MySQLDatabase {
         createTable();
     }
 
+    // ARENAS
 
     public void loadArenas() {
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
@@ -87,6 +87,11 @@ public class MySQLDatabase {
                     "spawn_1 VARCHAR(255) NOT NULL," +
                     "spawn_2 VARCHAR(255) NOT NULL" +
                     ")");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS player_stats (" +
+                    "player VARCHAR(255) NOT NULL," +
+                    "win INT NOT NULL," +
+                    "death INT NOT NULL" +
+                    ")");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -114,6 +119,61 @@ public class MySQLDatabase {
             e.printStackTrace();
         }
     }
+
+
+    // STATS
+
+    public void addStats(String player, int win, int death) {
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+            try {
+                boolean playerExists = getWins(player) != -1 && getDeath(player) != -1;
+
+                String sql = playerExists ?
+                        "UPDATE player_stats SET win = win + ?, death = death + ? WHERE player = ?" :
+                        "INSERT INTO player_stats (player, win, death) VALUES (?, ?, ?)";
+
+                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                    preparedStatement.setInt(playerExists ? 1 : 2, win);
+                    preparedStatement.setInt(playerExists ? 2 : 3, death);
+                    preparedStatement.setString(playerExists ? 3 : 1, player);
+                    preparedStatement.executeUpdate();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+
+    public int getWins(String player) {
+        int win = -1;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT win FROM player_stats WHERE player = ?")) {
+            preparedStatement.setString(1, player);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+                win = resultSet.getInt("win");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return win;
+    }
+
+    public int getDeath(String player) {
+        int deaths = -1;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT death FROM player_stats WHERE player = ?")) {
+            preparedStatement.setString(1, player);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+                deaths = resultSet.getInt("death");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return deaths;
+    }
+
+
 
 
 }

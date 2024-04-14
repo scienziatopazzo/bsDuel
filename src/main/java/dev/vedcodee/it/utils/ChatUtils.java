@@ -75,7 +75,7 @@ public class ChatUtils {
         player.sendMessage(color(replace(Main.getInstance().getMessageConfiguration().getString(message), placeholders)));
     }
 
-    private static void sendTitle(Player player, FileConfiguration config, String patch, String... args) {
+    public static void sendTitle(Player player, FileConfiguration config, String patch, String... args) {
         String message = config.getString(patch);
 
         if (message.contains("[title]") && message.contains("[subtitle]")) {

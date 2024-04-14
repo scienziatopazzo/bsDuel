@@ -68,12 +68,14 @@ public class Arena {
         ArenaSelectKitGUI gui_2 = new ArenaSelectKitGUI(players.getPlayer2());
         players.setPlayer1_selection(gui_1);
         players.setPlayer2_selection(gui_2);
+        players.getPlayer1().teleport(spawns.getLoc1());
+        players.getPlayer2().teleport(spawns.getLoc2());
         new StartingRunnable(this).runTaskTimer(Main.getInstance(), 0L, 20L);
     }
 
     public void start() {
-        players.getPlayer1().teleport(spawns.getLoc1());
-        players.getPlayer2().teleport(spawns.getLoc2());
+        players.getPlayer1().getOpenInventory().close();
+        players.getPlayer2().getOpenInventory().close();
         players.getPlayer1().getInventory().setContents(players.getPlayer1_selection().getKitSelected() == null ? DuelKit.getKitByName(Main.getInstance().getConfiguration().getString("kit.default")).getContent() : players.getPlayer1_selection().getKitSelected().getContent());
         players.getPlayer2().getInventory().setContents(players.getPlayer2_selection().getKitSelected() == null ? DuelKit.getKitByName(Main.getInstance().getConfiguration().getString("kit.default")).getContent() : players.getPlayer2_selection().getKitSelected().getContent());
     }
@@ -82,6 +84,13 @@ public class Arena {
     public void stop() {
         HashMap<String, String> placeholders = new HashMap<>();
         placeholders.put("player", victory.getName());
+        Main.getInstance().getDatabase().addStats(victory.getName(), 1, 0);
+        ChatUtils.sendTitle(victory, Main.getInstance().getMessageConfiguration(), "win_title");
+        Player def = players.getPlayer1() == victory ? players.getPlayer2() : players.getPlayer1();
+        if(def != null) {
+            Main.getInstance().getDatabase().addStats(def.getName(), 0, 1);
+            ChatUtils.sendTitle(def, Main.getInstance().getMessageConfiguration(), "lost_title");
+        }
         sendMessage(ChatUtils.replace(Main.getInstance().getMessageConfiguration().getString("win"), placeholders));
         Location lobby = LocationUtils.getLocation(Main.getInstance().getConfiguration().getString("lobby"));
         players.getPlayer1().teleport(lobby);

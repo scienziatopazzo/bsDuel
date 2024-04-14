@@ -24,8 +24,17 @@ starting: "&bStarting in &c{seconds}&b!"
 starting_cancelled: "{prefix} &cStarting cancelled!"
 started: "&bStarted!"
 win: "&b{player} win the game!"
+win_title: "&aYou win the duel!!!"
+lost_title: "&cYou load the duel!!!"
 death: "&c{player} is death!"
 leaved: "&c{player} is leaved!"
+# Stats
+info:
+  - "&b&lSTATS"
+  - ""
+  - "&9Win: &b {win}"
+  - "&9Deaths: &b {deaths}"
+  - ""
 # Errors
 syntax_error: "{prefix} &cError, please check the command format!"
 arena_areal_exist: "{prefix} &cError, the arena '{arena}' areal exist!"
