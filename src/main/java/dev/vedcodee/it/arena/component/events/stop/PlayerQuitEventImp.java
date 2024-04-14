@@ -15,6 +15,7 @@ public class PlayerQuitEventImp implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+        Arena.getArenas().remove(player);
         if(!Arena.isInArena(player)) return;
         HashMap<String, String> placeholders = new HashMap<>();
         placeholders.put("player", player.getName());

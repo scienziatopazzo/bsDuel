@@ -111,6 +111,7 @@ public class Arena {
         removedBlocks.forEach((location, material) -> location.getBlock().setType(material));
         placedBlocks.clear();
         removedBlocks.clear();
+
         Location lobby = LocationUtils.getLocation(Main.getInstance().getConfiguration().getString("lobby"));
         players.getPlayer1().teleport(lobby);
         players.getPlayer2().teleport(lobby);

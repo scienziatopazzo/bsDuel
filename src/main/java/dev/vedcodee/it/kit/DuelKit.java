@@ -26,19 +26,6 @@ public class DuelKit {
     private boolean enable;
     private ItemStack[] content;
 
-    public DuelKit(GameFile kitFile) {
-        this.kitFile = kitFile;
-        this.config = kitFile.getFileConfiguration();
-        this.name = kitFile.getFile().getName().replace(".yml", "");
-        // {kit_name} -> name
-        this.permission = Main.getInstance().getConfiguration().getString("kit.permission").replace("{kit_name}", name);
-        this.enable = config.getBoolean("enable");
-        loadContent();
-        kitFile.save();
-        kits.add(this);
-    }
-
-
     public DuelKit(String name) {
         this.kitFile = new GameFile("kits/" + name + ".yml");
         this.config = kitFile.getFileConfiguration();

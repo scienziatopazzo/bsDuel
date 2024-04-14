@@ -11,6 +11,7 @@ import dev.vedcodee.it.arena.component.Status;
 import dev.vedcodee.it.kit.DuelKit;
 import dev.vedcodee.it.utils.ChatUtils;
 import dev.vedcodee.it.utils.LocationUtils;
+import lombok.Getter;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -95,8 +96,8 @@ public class ArenaCommand extends BaseCommand {
             player.sendMessage(ChatUtils.replace(info, placeholders));
     }
 
-
-
+    @Getter
+    private static final HashMap<Player, Player> invites = new HashMap<>();
 
     @Default
     public void onDuel(Player player, String[] args) {
@@ -111,9 +112,38 @@ public class ArenaCommand extends BaseCommand {
             ChatUtils.sendMessage(player, "no_duel", new HashMap<>());
             return;
         }
+        if(invites.containsKey(player)) {
+            ChatUtils.sendMessage(player, "areal_invite", new HashMap<>());
+            return;
+        }
+        HashMap<String, String> placeholders = new HashMap<>();
+        placeholders.put("player", player.getName());
+        placeholders.put("target", target.getName());
+        ChatUtils.sendMessage(player, "send_1", placeholders);
+        TextComponent message = new TextComponent(ChatUtils.replace(Main.getInstance().getMessageConfiguration().getString("send_2"), placeholders));
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/duel accept " + player.getName()));
+        target.spigot().sendMessage(message);
+        invites.put(player, target);
+    }
+
+    @Subcommand("accept")
+    public void onAccept(Player player, String[] args) {
+        if(checkPlayer(player, args)) return;
+        Player target = getPlayer(args);
+        if(invites.get(target) != player) {
+            ChatUtils.sendMessage(player, "not_invite", new HashMap<>());
+            return;
+        }
+        Arena arena = Arena.getArenas().stream().filter(duel -> duel.getStatus() == Status.EMPTY).findFirst().orElse(null);
+        if(arena == null) {
+            ChatUtils.sendMessage(player, "no_duel", new HashMap<>());
+            invites.remove(player);
+            return;
+        }
         arena.getPlayers().setPlayer1(player);
         arena.getPlayers().setPlayer2(target);
         arena.starting();
+        invites.remove(player);
     }
 
     @Subcommand("kit create")
