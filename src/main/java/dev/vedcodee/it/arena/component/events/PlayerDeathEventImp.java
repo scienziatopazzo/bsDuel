@@ -3,6 +3,7 @@ package dev.vedcodee.it.arena.component.events;
 import dev.vedcodee.it.Main;
 import dev.vedcodee.it.arena.Arena;
 import dev.vedcodee.it.utils.ChatUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,6 +27,7 @@ public class PlayerDeathEventImp implements Listener {
         arena.stop();
         event.setDeathMessage(null);
         event.setKeepInventory(true);
+        Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> player.spigot().respawn(), 1L);
     }
 
 }

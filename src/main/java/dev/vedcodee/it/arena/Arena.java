@@ -68,6 +68,8 @@ public class Arena {
         ArenaSelectKitGUI gui_2 = new ArenaSelectKitGUI(players.getPlayer2());
         players.setPlayer1_selection(gui_1);
         players.setPlayer2_selection(gui_2);
+        players.setPlayer1_content(players.getPlayer1().getInventory().getContents());
+        players.setPlayer2_content(players.getPlayer2().getInventory().getContents());
         players.getPlayer1().teleport(spawns.getLoc1());
         players.getPlayer2().teleport(spawns.getLoc2());
         new StartingRunnable(this).runTaskTimer(Main.getInstance(), 0L, 20L);
@@ -95,12 +97,16 @@ public class Arena {
         Location lobby = LocationUtils.getLocation(Main.getInstance().getConfiguration().getString("lobby"));
         players.getPlayer1().teleport(lobby);
         players.getPlayer2().teleport(lobby);
+        players.getPlayer1().getInventory().setContents(players.getPlayer1_content());
+        players.getPlayer2().getInventory().setContents(players.getPlayer2_content());
         players.setPlayer1(null);
         players.setPlayer2(null);
         players.getPlayer1_selection().delete();
         players.getPlayer2_selection().delete();
         players.setPlayer1_selection(null);
         players.setPlayer2_selection(null);
+        players.setPlayer1_content(null);
+        players.setPlayer2_content(null);
         setStatus(Status.EMPTY);
     }
 

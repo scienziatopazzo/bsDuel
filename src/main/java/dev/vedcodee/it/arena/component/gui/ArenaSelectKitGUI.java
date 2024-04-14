@@ -27,8 +27,10 @@ public class ArenaSelectKitGUI extends AbstractGUI {
             ConfigurationSection itemSelection = selection.getConfigurationSection(key);
             if(itemSelection.contains("select")) {
                 if(Integer.parseInt(key) == slot) {
-                    String kit = itemSelection.getString("select");
-                    this.kitSelected = DuelKit.getKitByName(kit);
+                    String kitName = itemSelection.getString("select");
+                    DuelKit kit = DuelKit.getKitByName(kitName);
+                    if(!player.hasPermission(kit.getPermission())) return true;
+                    this.kitSelected = kit;
                     reloadGUI();
                     return true;
                 }

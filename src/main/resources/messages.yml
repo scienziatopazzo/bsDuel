@@ -25,7 +25,7 @@ starting_cancelled: "{prefix} &cStarting cancelled!"
 started: "&bStarted!"
 win: "&b{player} win the game!"
 win_title: "&aYou win the duel!!!"
-lost_title: "&cYou load the duel!!!"
+lost_title: "&cYou lost the duel!!!"
 death: "&c{player} is death!"
 leaved: "&c{player} is leaved!"
 # Stats
