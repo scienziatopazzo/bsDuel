@@ -41,6 +41,25 @@ public class MySQLDatabase {
         createTable();
     }
 
+
+    private void createTable() {
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS arenas (" +
+                    "name VARCHAR(255) NOT NULL," +
+                    "spawn_1 VARCHAR(255) NOT NULL," +
+                    "spawn_2 VARCHAR(255) NOT NULL" +
+                    ")");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS player_stats (" +
+                    "player VARCHAR(255) NOT NULL," +
+                    "win INT NOT NULL," +
+                    "death INT NOT NULL" +
+                    ")");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     // ARENAS
 
     public void loadArenas() {
@@ -77,24 +96,6 @@ public class MySQLDatabase {
                 );
             }
         });
-    }
-
-
-    private void createTable() {
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS arenas (" +
-                    "name VARCHAR(255) NOT NULL," +
-                    "spawn_1 VARCHAR(255) NOT NULL," +
-                    "spawn_2 VARCHAR(255) NOT NULL" +
-                    ")");
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS player_stats (" +
-                    "player VARCHAR(255) NOT NULL," +
-                    "win INT NOT NULL," +
-                    "death INT NOT NULL" +
-                    ")");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 
@@ -173,6 +174,24 @@ public class MySQLDatabase {
         return deaths;
     }
 
+    public List<DuelPlayer> getPlayers() {
+        List<DuelPlayer> players = new ArrayList<>();
+
+        String query = "SELECT player, win, death FROM player_stats";
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+            while (resultSet.next()) {
+                String player = resultSet.getString("player");
+                int win = resultSet.getInt("win");
+                int deaths = resultSet.getInt("death");
+                players.add(new DuelPlayer(player, win, deaths, win + deaths));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return players;
+    }
 
 
 

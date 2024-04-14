@@ -7,6 +7,7 @@ import dev.vedcodee.it.commands.ArenaCommand;
 import dev.vedcodee.it.commands.LeaveCommand;
 import dev.vedcodee.it.database.MySQLDatabase;
 import dev.vedcodee.it.kit.DuelKit;
+import dev.vedcodee.it.placeholder.PlaceholderSupport;
 import dev.vedcodee.it.utils.GameFile;
 import dev.vedcodee.it.utils.gui.GUIEvent;
 import lombok.Getter;
@@ -46,6 +47,9 @@ public final class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new GUIEvent(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerDeathEventImp(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerQuitEventImp(), this);
+
+        if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
+            new PlaceholderSupport().register();
     }
 
     @Override
