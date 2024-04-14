@@ -11,7 +11,9 @@ import dev.vedcodee.it.utils.pair.LocationPair;
 import dev.vedcodee.it.utils.pair.PlayerPair;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class Arena {
 
     private final LocationPair spawns;
     private final PlayerPair players;
+    private final HashMap<Location, Material> removedBlocks;
+    private final List<Location> placedBlocks;
     @Setter
     private Player victory;
     @Setter
@@ -40,6 +44,8 @@ public class Arena {
         this.spawns = new LocationPair();
         this.players = new PlayerPair();
         this.status = Status.EMPTY;
+        this.removedBlocks = new HashMap<>();
+        this.placedBlocks = new ArrayList<>();
         arenas.add(this);
     }
 
@@ -86,19 +92,32 @@ public class Arena {
     public void stop() {
         HashMap<String, String> placeholders = new HashMap<>();
         placeholders.put("player", victory.getName());
+
         Main.getInstance().getDatabase().addStats(victory.getName(), 1, 0);
         ChatUtils.sendTitle(victory, Main.getInstance().getMessageConfiguration(), "win_title");
+
         Player def = players.getPlayer1() == victory ? players.getPlayer2() : players.getPlayer1();
+        for (String command : Main.getInstance().getConfiguration().getStringList("rewards.win"))
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ChatUtils.color(command).replace("{player}", victory.getName()));
         if(def != null) {
             Main.getInstance().getDatabase().addStats(def.getName(), 0, 1);
             ChatUtils.sendTitle(def, Main.getInstance().getMessageConfiguration(), "lost_title");
+            for (String command : Main.getInstance().getConfiguration().getStringList("rewards.lost"))
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ChatUtils.color(command).replace("{player}", def.getName()));
         }
         sendMessage(ChatUtils.replace(Main.getInstance().getMessageConfiguration().getString("win"), placeholders));
+
+        for (Location location : placedBlocks) location.getBlock().setType(Material.AIR);
+        removedBlocks.forEach((location, material) -> location.getBlock().setType(material));
+        placedBlocks.clear();
+        removedBlocks.clear();
         Location lobby = LocationUtils.getLocation(Main.getInstance().getConfiguration().getString("lobby"));
         players.getPlayer1().teleport(lobby);
         players.getPlayer2().teleport(lobby);
+
         players.getPlayer1().getInventory().setContents(players.getPlayer1_content());
         players.getPlayer2().getInventory().setContents(players.getPlayer2_content());
+
         players.setPlayer1(null);
         players.setPlayer2(null);
         players.getPlayer1_selection().delete();
@@ -107,6 +126,7 @@ public class Arena {
         players.setPlayer2_selection(null);
         players.setPlayer1_content(null);
         players.setPlayer2_content(null);
+
         setStatus(Status.EMPTY);
     }
 

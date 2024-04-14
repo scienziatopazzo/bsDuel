@@ -1,4 +1,4 @@
-package dev.vedcodee.it.arena.component.events;
+package dev.vedcodee.it.arena.component.events.stop;
 
 import dev.vedcodee.it.Main;
 import dev.vedcodee.it.arena.Arena;

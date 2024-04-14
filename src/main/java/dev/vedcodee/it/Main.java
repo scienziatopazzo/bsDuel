@@ -1,8 +1,11 @@
 package dev.vedcodee.it;
 
 import co.aikar.commands.BukkitCommandManager;
-import dev.vedcodee.it.arena.component.events.PlayerDeathEventImp;
-import dev.vedcodee.it.arena.component.events.PlayerQuitEventImp;
+import dev.vedcodee.it.arena.component.events.blocks.ExplosionEventImp;
+import dev.vedcodee.it.arena.component.events.blocks.PlayerBreakImp;
+import dev.vedcodee.it.arena.component.events.blocks.PlayerPlaceImp;
+import dev.vedcodee.it.arena.component.events.stop.PlayerDeathEventImp;
+import dev.vedcodee.it.arena.component.events.stop.PlayerQuitEventImp;
 import dev.vedcodee.it.commands.ArenaCommand;
 import dev.vedcodee.it.commands.LeaveCommand;
 import dev.vedcodee.it.database.MySQLDatabase;
@@ -12,7 +15,6 @@ import dev.vedcodee.it.utils.GameFile;
 import dev.vedcodee.it.utils.gui.GUIEvent;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -47,6 +49,9 @@ public final class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new GUIEvent(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerDeathEventImp(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerQuitEventImp(), this);
+        Bukkit.getPluginManager().registerEvents(new ExplosionEventImp(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerBreakImp(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerPlaceImp(), this);
 
         if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
             new PlaceholderSupport().register();
