@@ -1,6 +1,8 @@
 package dev.vedcodee.it;
 
 import co.aikar.commands.BukkitCommandManager;
+import dev.vedcodee.it.arena.Arena;
+import dev.vedcodee.it.arena.component.Status;
 import dev.vedcodee.it.arena.component.events.blocks.ExplosionEventImp;
 import dev.vedcodee.it.arena.component.events.blocks.PlayerBreakImp;
 import dev.vedcodee.it.arena.component.events.blocks.PlayerPlaceImp;
@@ -59,6 +61,14 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        for (Arena arena : Arena.getArenas()) {
+            if(arena.getStatus() == Status.STATED) {
+                arena.setVictory(arena.getPlayers().getPlayer1());
+                arena.stop();
+            }
+        }
+
+
         database.refreshArenas();
         if(!database.getSource().isClosed())
             database.getSource().close();
